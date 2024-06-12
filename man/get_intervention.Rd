@@ -7,8 +7,10 @@
 get_intervention(intervention = c("itn", "irs"), year = c(2020, 2015))
 }
 \arguments{
-\item{intervention}{\code{character} which interventions do you want? all, irs, or
-itn?}
+\item{intervention}{\code{character} which interventions do you want? irs, or
+itn, or both}
+
+\item{year}{\code{integer} 2020 or 2015 or both}
 }
 \value{
 \code{SpatRaster}

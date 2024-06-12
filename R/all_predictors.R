@@ -26,7 +26,7 @@ all_predictors <- function(path = NULL){
     terra::writeRaster(
       x = p,
       filename = sprintf(
-        "%s/predictions.grd",
+        "%s/predictions.tif",
         path
       )
     )

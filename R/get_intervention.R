@@ -2,8 +2,9 @@
 #' @description
 #' Returns ITN and or IRS data from MAP.
 #'
-#' @param intervention `character` which interventions do you want? all, irs, or
-#'  itn?
+#' @param intervention `character` which interventions do you want? irs, or
+#'  itn, or both
+#' @param year `integer` 2020 or 2015 or both
 #'
 #' @return `SpatRaster`
 #' @export
@@ -44,8 +45,26 @@ get_intervention <- function(
       itv %in% intervention,
       yr %in% year
     ) |>
-    dplyr::pull(lyrs)
+    dplyr::mutate(
+      lyrnames = sprintf(
+        "%s_%s",
+        itv,
+        yr
+      )
+    )
 
-  malariaAtlas::getRaster(layers)
+  lyrs <- layers$lyrs
+  lyrnames <- layers$lyrnames
+
+  mapply(
+    FUN = function(lyrs, lyrnames){
+      z <- malariaAtlas::getRaster(lyrs)
+      names(z) <- lyrnames
+      z
+    },
+    lyrs,
+    lyrnames,
+    SIMPLIFY = FALSE
+  )
 
 }
